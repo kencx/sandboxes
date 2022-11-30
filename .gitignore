@@ -1,0 +1,5 @@
+.vagrant/*
+
+**/builds/*
+
+**/auto.pkrvars.hcl
