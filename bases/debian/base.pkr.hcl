@@ -7,7 +7,7 @@ locals {
   ssh_public_key = file(var.ssh_public_key_path)
 }
 
-source "qemu" "base" {
+source "qemu" "debian_base" {
   vm_name          = var.vm_name
   headless         = true
   shutdown_command = "echo '${var.ssh_password}' | sudo -S /sbin/shutdown -hP now"
@@ -38,7 +38,7 @@ source "qemu" "base" {
 }
 
 build {
-  sources = ["source.qemu.base"]
+  sources = ["source.qemu.debian_base"]
 
   # vagrant setup
   provisioner "shell" {
@@ -52,7 +52,7 @@ build {
 
   post-processors {
     post-processor "vagrant" {
-      output = "./builds/{{ .BuildName }}.{{ .Provider }}.${formatdate("YYYY-MM-DD", timestamp())}.box"
+      output = "../../builds/{{ .BuildName }}.{{ .Provider }}.${formatdate("YYYY-MM-DD", timestamp())}.box"
     }
   }
 }
