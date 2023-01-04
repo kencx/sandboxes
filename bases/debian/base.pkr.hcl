@@ -5,11 +5,12 @@ locals {
     root_password = var.root_password
   }
   ssh_public_key = file(var.ssh_public_key_path)
+  build_time     = "${formatdate("YYYY-MM-DD", timestamp())}"
 }
 
 source "qemu" "debian_base" {
   vm_name          = var.vm_name
-  headless         = true
+  headless         = ${var.headless}
   shutdown_command = "echo '${var.ssh_password}' | sudo -S /sbin/shutdown -hP now"
 
   iso_url      = var.iso_url
@@ -21,7 +22,6 @@ source "qemu" "debian_base" {
   qemuargs = [
     ["-m", "1024M"],
     ["-bios", "bios-256k.bin"],
-    ["-display", "none"]
   ]
 
   ssh_username         = var.ssh_username
@@ -52,7 +52,27 @@ build {
 
   post-processors {
     post-processor "vagrant" {
-      output = "../../builds/{{ .BuildName }}.{{ .Provider }}.${formatdate("YYYY-MM-DD", timestamp())}.box"
+      output = "../../builds/boxes{{ .BuildName }}.{{ .Provider }}.${build_time}.box"
+    }
+
+    post-processor "vagrant" {
+      output = "../../builds/boxes/{{ .BuildName }}.{{ .Provider }}.${build_time}.box"
+    }
+
+    post-processor "checksum" {
+      checksum_types = ["sha256"]
+      output = "../../builds/boxes/{{ .BuildName }}.{{ .ChecksumType }}"
+    }
+
+    post-processor "shell" {
+      script = "../../update_catalog.py"
+      execute_command = "{{ .Vars }} /bin/bash -c {{ .Script }}
+        -f ../../builds/arch-base.json
+        -v ${var.version}
+        -p libvirt
+        -b ../../builds/boxes/{{ .BuildName }}.libvirt.${build_time}.box
+        -t sha256
+        -c file://../../builds/boxes/{{ .BuildName }}.sha256"
     }
   }
 }

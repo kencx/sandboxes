@@ -10,10 +10,15 @@ variable "vm_name" {
   default     = "arch"
 }
 
+variable "version" {
+  type        = string
+  description = "Version of box"
+}
+
 variable "headless" {
   type        = bool
   description = "Run in headless mode"
-  default     = false
+  default     = true
 }
 
 variable "root_password" {

@@ -1,0 +1,17 @@
+{
+  "name": "kenc/arch-base",
+  "description": "Arch Linux 2023.01.01",
+  "versions": [
+    {
+      "version": "0.1.0",
+      "providers": [
+        {
+          "name": "libvirt",
+          "url": "file:///~/dev/sandboxes/builds/boxes/arch_base.libvirt.2023-01-04.box",
+          "checksum_type": "sha256",
+          "checksum": "ab2ce58e6f712e8821203518a7e00e3f50793c8410031816fca2480ae7b43ac1"
+        }
+      ]
+    }
+  ]
+}

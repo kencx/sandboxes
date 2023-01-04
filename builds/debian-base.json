@@ -1,0 +1,17 @@
+{
+  "name": "kenc/debian-base",
+  "description": "Debian 11.5.0 (bullseye) 64-bit",
+  "versions": [
+    {
+      "version": "0.1.0",
+      "providers": [
+        {
+          "name": "libvirt",
+          "url": "file://~/dev/sandboxes/builds/boxes/debian_base.libvirt.2022-11-29.box",
+          "checksum_type": "sha256",
+          "checksum": "0c64254ec2a778805d7d98943173502a10c5b0827d0dcb8a849cf6f517124a5b"
+        }
+      ]
+    }
+  ]
+}

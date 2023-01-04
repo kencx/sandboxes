@@ -16,6 +16,17 @@ variable "vm_name" {
   default     = "base"
 }
 
+variable "version" {
+  type        = string
+  description = "Version of box"
+}
+
+variable "headless" {
+  type        = bool
+  description = "Run in headless mode"
+  default     = true
+}
+
 variable "root_password" {
   type        = string
   description = "Root password"
